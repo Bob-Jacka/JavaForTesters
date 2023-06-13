@@ -9,11 +9,9 @@ public class CreditAccountTest {
 
     @BeforeEach
     public void testEquipment() {
-        int initialBalance = 50;
         int creditLimit = 50;
         int rate = 50;
         TestAccount = new CreditAccount(
-                initialBalance,
                 creditLimit,
                 rate);
     }
@@ -21,37 +19,22 @@ public class CreditAccountTest {
     @Test
     public void shouldAddToPositiveBalance() {
         CreditAccount account = new CreditAccount(
-                0,
                 5_000,
                 15
         );
 
+        account.setBalance(0);
         account.add(3_000);
 
         Assertions.assertEquals(3_000, account.getBalance());
     }
 
     @Test
-    public void shouldNotCreateWhenInitialBalanceLessThanZero() {
-        int initialBalance = -1;
-        int creditLimit = 50;
-        int rate = 50;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            CreditAccount account = new CreditAccount(
-                    initialBalance,
-                    creditLimit,
-                    rate);
-        });
-    }
-
-    @Test
     public void shouldNotCreateWhenCreditLimitLessThanZero() {
-        int initialBalance = 50;
         int creditLimit = -1;
         int rate = 50;
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             CreditAccount account = new CreditAccount(
-                    initialBalance,
                     creditLimit,
                     rate);
         });
@@ -59,12 +42,10 @@ public class CreditAccountTest {
 
     @Test
     public void shouldNotCreateWhenRateLessThanZero() {
-        int initialBalance = 50;
         int creditLimit = 50;
         int rate = -1;
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             CreditAccount account = new CreditAccount(
-                    initialBalance,
                     creditLimit,
                     rate);
         });
@@ -72,12 +53,10 @@ public class CreditAccountTest {
 
     @Test
     public void shouldNotThrowsExceptionWhenRateEqualsZero() {
-        int initialBalance = 50;
         int creditLimit = 50;
         int rate = 0;
         Assertions.assertDoesNotThrow(() -> {
             CreditAccount account = new CreditAccount(
-                    initialBalance,
                     creditLimit,
                     rate);
         });
@@ -93,10 +72,10 @@ public class CreditAccountTest {
 
     @Test
     public void shouldReturnFalseWhenPayIfBalanceLessThanCreditLimit() {
-        int initialBalance = -49;
         int creditLimit = 50;
         int rate = 10;
-        CreditAccount account = new CreditAccount(initialBalance, creditLimit, rate);
+        CreditAccount account = new CreditAccount(creditLimit, rate);
+        account.setBalance(-49);
 
         boolean act = account.pay(15);
         boolean exp = false;
@@ -148,10 +127,10 @@ public class CreditAccountTest {
 
     @Test
     public void shouldAddToBalanceWithNegativeBalance() {
-        int initialBalance = -50;
         int creditLimit = 50;
         int rate = 5;
-        CreditAccount account = new CreditAccount(initialBalance, creditLimit, rate);
+        CreditAccount account = new CreditAccount(creditLimit, rate);
+        account.setBalance(-50);
 
         int exp = 0;
         account.add(50);
@@ -161,24 +140,10 @@ public class CreditAccountTest {
     }
 
     @Test
-    public void shouldNotCreateWhenCreditLimitLessThanBalance() {
-        int initialBalance = 100;
-        int creditLimit = 50;
-        int rate = 5;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            CreditAccount account = new CreditAccount(
-                    initialBalance,
-                    creditLimit,
-                    rate);
-        });
-    }
-
-    @Test
     public void shouldBeEqualBalanceAndCreditLimit() {
-        int initialBalance = 23;
         int creditLimit = 50;
         int rate = 5;
-        CreditAccount account = new CreditAccount(initialBalance, creditLimit, rate);
+        CreditAccount account = new CreditAccount(creditLimit, rate);
 
         int exp = 50;
         int act = account.getBalance();
@@ -188,10 +153,10 @@ public class CreditAccountTest {
 
     @Test
     public void shouldBeIfBalanceLessThanZero() {
-        int initialBalance = -200;
-        int creditLimit = 50;
+        int creditLimit = 200;
         int rate = 15;
-        CreditAccount account = new CreditAccount(initialBalance, creditLimit, rate);
+        CreditAccount account = new CreditAccount(creditLimit, rate);
+        account.setBalance(-200);
 
         int exp = -30;
         int act = account.yearChange();
@@ -201,10 +166,10 @@ public class CreditAccountTest {
 
     @Test
     public void shouldAlwaysBeZeroIfBalanceMoreThanZero() {
-        int initialBalance = 200;
         int creditLimit = 50;
         int rate = 15;
-        CreditAccount account = new CreditAccount(initialBalance, creditLimit, rate);
+        CreditAccount account = new CreditAccount(creditLimit, rate);
+        account.setBalance(200);
 
         int exp = 0;
         int act = account.yearChange();
