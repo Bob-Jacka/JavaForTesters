@@ -8,9 +8,8 @@ public class CreditAccountTest {
     @Test
     public void shouldAddToPositiveBalance() {
         CreditAccount account = new CreditAccount(
-                0,
-                5_000,
-                15
+                3_000,
+                5_000
         );
 
         account.add(3_000);

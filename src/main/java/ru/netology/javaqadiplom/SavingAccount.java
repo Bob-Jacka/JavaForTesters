@@ -20,9 +20,28 @@ public class SavingAccount extends Account {
      * @param rate - неотрицательное число, ставка в процентах годовых на остаток
      */
     public SavingAccount(int initialBalance, int minBalance, int maxBalance, int rate) {
-        if (rate < 0) {
+        if (initialBalance < 0 || initialBalance < minBalance) {
             throw new IllegalArgumentException(
-              "Накопительная ставка не может быть отрицательной, а у вас: " + rate
+                    "Начальный баланс не может быть отрицательной и не меньше минимального баланса," +
+                            " а у вас: " + initialBalance
+            );
+        }
+        if (minBalance < 0) {
+            throw new IllegalArgumentException(
+                    "Минимальный баланс не может быть отрицательной или " +
+                            "больше максимального баланса, а у вас: " + minBalance
+            );
+        }
+        if (maxBalance < 0 || maxBalance < minBalance) {
+            throw new IllegalArgumentException(
+                    "Максимальный баланс не может быть отрицательной или " +
+                            "меньше минимального баланса, а у вас: " + maxBalance
+            );
+        }
+        if (rate < 0 || rate >= 100) {
+            throw new IllegalArgumentException(
+                    "Накопительная ставка не может быть отрицательной или " +
+                            "больше 100%, а у вас: " + rate
             );
         }
         this.balance = initialBalance;
@@ -45,8 +64,8 @@ public class SavingAccount extends Account {
         if (amount <= 0) {
             return false;
         }
-        balance = balance - amount;
-        if (balance > minBalance) {
+        if (balance - amount >= minBalance) {
+            balance = balance - amount;
             return true;
         } else {
             return false;
@@ -69,8 +88,8 @@ public class SavingAccount extends Account {
         if (amount <= 0) {
             return false;
         }
-        if (balance + amount < maxBalance) {
-            balance = amount;
+        if (balance + amount <= maxBalance) {
+            balance = balance + amount;
             return true;
         } else {
             return false;
