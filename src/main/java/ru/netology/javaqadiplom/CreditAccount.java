@@ -69,12 +69,10 @@ public class CreditAccount extends Account {
      */
     @Override
     public boolean add(int amount) {
-        if (amount <= 0) {
+        if (amount <= 0 || (balance + amount) > creditLimit) {
             return false;
         }
-        if(balance + amount > creditLimit) {
-            return false;
-        } else balance += amount;
+        balance += amount;
         return true;
     }
 
@@ -101,7 +99,7 @@ public class CreditAccount extends Account {
     }
 
     public boolean setBalance(int balance) {
-        if (balance < -creditLimit) {
+        if (balance < -creditLimit || balance > creditLimit) {
             return false;
         }
         this.balance = balance;
