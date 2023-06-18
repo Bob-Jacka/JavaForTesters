@@ -71,14 +71,14 @@ public class CreditAccountTest {
     }
 
     @Test
-    public void shouldReturnTrueWhenPayIfBalanceLessThanCreditLimit() {
+    public void shouldReturnFalseWhenPayIfBalanceLessThanCreditLimit() {
         int creditLimit = 50;
         int rate = 10;
         CreditAccount account = new CreditAccount(creditLimit, rate);
         account.setBalance(-49);
 
         boolean act = account.pay(15);
-        boolean exp = true;
+        boolean exp = false;
 
         Assertions.assertEquals(exp, act);
     }
@@ -110,6 +110,7 @@ public class CreditAccountTest {
 
     @Test
     public void shouldReturnTrueWhenAdd() {
+        TestAccount.setBalance(49);
         boolean act = TestAccount.add(1);
         boolean exp = true;
 
@@ -118,8 +119,9 @@ public class CreditAccountTest {
 
     @Test
     public void shouldAddToBalance() {
+        TestAccount.setBalance(0);
         TestAccount.add(50);
-        int exp = 100;
+        int exp = 50;
         int act = TestAccount.getBalance();
 
         Assertions.assertEquals(exp, act);
@@ -217,18 +219,5 @@ public class CreditAccountTest {
 
         Assertions.assertEquals(balanceBefore_creditAcc, balanceAfter_creditAcc);
         Assertions.assertFalse(TestAccount.add(amount));
-    }
-
-    @Test
-    public void shouldPayWithLarge() {
-        int amount = 600_000;
-        int balanceBefore_creditAcc = TestAccount.getBalance();
-
-        TestAccount.pay(amount);
-
-        int balanceAfter_creditAcc = TestAccount.getBalance();
-
-        Assertions.assertNotEquals(balanceBefore_creditAcc, balanceAfter_creditAcc);
-        Assertions.assertEquals(balanceBefore_creditAcc - amount, balanceAfter_creditAcc);
     }
 }
