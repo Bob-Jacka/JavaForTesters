@@ -7,75 +7,22 @@ import org.junit.jupiter.api.Test;
 public class BankTest {
 
     Bank bank;
-/*    Account from;
-    Account to;*/
     CreditAccount creditAccount;
     SavingAccount savingAccount;
 
     @BeforeEach
     public void TestEquipment() {
         bank = new Bank();
-    /*    from = new Account();
-        to = new Account();
-
-        from.balance = 10;
-        to.balance = 10;*/
-
         creditAccount = new CreditAccount(100, 50);
         savingAccount = new SavingAccount(50, 10, 70, 15);
     }
 
-/*    @Test
-    public void shouldTransferWithPositiveAmount() {
-        int balanceBefore_From = from.getBalance();
-        int balanceBefore_To = to.getBalance();
-        int amount = 15;
-
-        bank.transfer(from, to, amount);
-
-        int balanceAfter_From = from.getBalance();
-        int balanceAfter_To = to.getBalance();
-
-        Assertions.assertEquals(balanceBefore_From + amount, balanceAfter_From);
-        Assertions.assertEquals(balanceBefore_To + amount, balanceAfter_To);
-    }*/
-
-/*    @Test
-    public void shouldNotTransferWithZeroAmount() {
-        int balanceBefore_From = from.getBalance();
-        int balanceBefore_To = to.getBalance();
-        int amount = 0;
-
-        bank.transfer(from, to, amount);
-
-        int balanceAfter_From = from.getBalance();
-        int balanceAfter_To = to.getBalance();
-
-        Assertions.assertEquals(balanceBefore_From, balanceAfter_From);
-        Assertions.assertEquals(balanceBefore_To, balanceAfter_To);
-    }*/
-
-/*    @Test
-    public void shouldNotTransferWithNegativeAmount() {
-        int balanceBefore_From = from.getBalance();
-        int balanceBefore_To = to.getBalance();
-        int amount = -100_000_000;
-
-        bank.transfer(from, to, amount);
-
-        int balanceAfterFrom = from.getBalance();
-        int balanceAfter_To = to.getBalance();
-
-        Assertions.assertEquals(balanceBefore_From, balanceAfterFrom);
-        Assertions.assertEquals(balanceBefore_To, balanceAfter_To);
-    }*/
-
-   @Test
+    @Test
     public void shouldTransferToNegativeBalance() {
-       int amount = 20;
-       creditAccount.setBalance(-50);
-       int balanceBefore_CA = creditAccount.getBalance();
-       int balanceBefore_SA = savingAccount.getBalance();
+        int amount = 20;
+        creditAccount.setBalance(-50);
+        int balanceBefore_CA = creditAccount.getBalance();
+        int balanceBefore_SA = savingAccount.getBalance();
 
         boolean confirmation = bank.transfer(savingAccount, creditAccount, amount);
         int balanceAfterCA = creditAccount.getBalance();
@@ -85,77 +32,6 @@ public class BankTest {
         Assertions.assertEquals(balanceBefore_CA + amount, balanceAfterCA);
         Assertions.assertEquals(balanceBefore_SA - amount, balanceAfterSA);
     }
-
-/*    @Test
-    public void shouldNotTransferFromNegativeBalance() {
-        from.balance = -100;
-        int amount = 100;
-        int balanceBefore_From = from.getBalance();
-        int balanceBefore_To = to.getBalance();
-
-        bank.transfer(from, to, amount);
-
-        int balanceAfter_From = from.getBalance();
-        int balanceAfter_To = to.getBalance();
-
-        Assertions.assertEquals(balanceBefore_From, balanceAfter_From);
-        Assertions.assertEquals(balanceBefore_To, balanceAfter_To);
-    }*/
-
-/*    @Test
-    public void shouldNotTransferFromZeroBalance() {
-        from.balance = 0;
-        int amount = 100;
-        int balanceBefore_From = from.getBalance();
-        int balanceBefore_To = to.getBalance();
-
-        bank.transfer(from, to, amount);
-
-        int balanceAfter_From = from.getBalance();
-        int balanceAfter_To = to.getBalance();
-
-        Assertions.assertEquals(balanceBefore_From, balanceAfter_From);
-        Assertions.assertEquals(balanceBefore_To, balanceAfter_To);
-    }*/
-
-/*    @Test
-    public void shouldChangeBalanceFrom() {
-        int amount = 10;
-        int BalanceBefore_From = from.getBalance();
-
-        bank.transfer(from, to, amount);
-
-        int balanceAfter_From = from.getBalance();
-
-        Assertions.assertEquals(BalanceBefore_From - amount, balanceAfter_From);
-    }*/
-
-/*    @Test
-    public void shouldChangeBalanceTo() {
-        int amount = 10;
-        int balanceBefore_To = to.getBalance();
-
-        bank.transfer(from, to, amount);
-
-        int balanceAfter_To = to.getBalance();
-
-        Assertions.assertEquals(balanceBefore_To + amount, balanceAfter_To);
-    }*/
-
-/*    @Test
-    public void shouldNotTransferFromOneToTheSame() {
-        int amount = 10;
-        int balanceBefore_From = from.getBalance();
-        int balanceBefore_To = to.getBalance();
-
-        bank.transfer(from, from, amount);
-
-        int balanceAfter_From = from.getBalance();
-        int balanceAfter_To = to.getBalance();
-
-        Assertions.assertEquals(balanceBefore_From, balanceAfter_From);
-        Assertions.assertEquals(balanceBefore_To, balanceAfter_To);
-    }*/
 
     @Test
     public void shouldTransferFromCreditToSavingAccount() {
