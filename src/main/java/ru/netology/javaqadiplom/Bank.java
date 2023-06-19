@@ -8,18 +8,26 @@ public class Bank {
      * уменьшиться на эту сумму, а баланс счёта to увеличиться.
      * Если операция прошла неуспешно, балансы обоих счетов никак
      * измениться не должны.
-     * @param from - счёт с которого переводим
-     * @param to - счёт на который переводим
+     * @param from   - счёт с которого переводим
+     * @param to     - счёт на который переводим
      * @param amount - сумма перевода
      * @return - true если операция прошла успешно, false иначе
      */
     public boolean transfer(Account from, Account to, int amount) {
-        if (amount <= 0) {
+
+        boolean fromConfirmed = from.pay(amount);
+        boolean toConfirmed = to.add(amount);
+
+        if (fromConfirmed && toConfirmed) {
+            return true;
+        } else if (!fromConfirmed && toConfirmed) {
+            to.pay(amount);
+            return false;
+        } else if (fromConfirmed && !toConfirmed) {
+            from.add(amount);
+            return false;
+        } else {
             return false;
         }
-        if (from.pay(amount)) {
-            to.add(amount);
-        }
-        return true;
     }
 }
